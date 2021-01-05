@@ -24,7 +24,7 @@ $status = get_post('status');
 $stock = get_post('stock');
 
 $image = get_file('image');
-
+//アイテム情報とアップロード画像を新規作成する
 if(regist_item($db, $name, $price, $stock, $status, $image)){
   set_message('商品を登録しました。');
 }else {

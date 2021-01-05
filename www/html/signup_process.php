@@ -14,7 +14,7 @@ $password = get_post('password');
 $password_confirmation = get_post('password_confirmation');
 
 $db = get_db_connect();
-
+//ユーザー情報を新規登録する、失敗した場合はエラーメッセージ、サインアップ画面へリダイレクtp
 try{
   $result = regist_user($db, $name, $password, $password_confirmation);
   if( $result=== false){
@@ -25,7 +25,7 @@ try{
   set_error('ユーザー登録に失敗しました。');
   redirect_to(SIGNUP_URL);
 }
-
+//サインアップに成功したら、ログインしホーム画面へリダイレクト
 set_message('ユーザー登録が完了しました。');
 login_as($db, $name, $password);
 redirect_to(HOME_URL);

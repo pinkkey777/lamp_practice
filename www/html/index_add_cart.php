@@ -16,7 +16,7 @@ $user = get_login_user($db);
 
 
 $item_id = get_post('item_id');
-
+//カートに商品を新規追加、または個数更新
 if(add_cart($db,$user['user_id'], $item_id)){
   set_message('カートに商品を追加しました。');
 } else {
