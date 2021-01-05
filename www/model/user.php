@@ -1,7 +1,7 @@
 <?php
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
-
+//ユーザー情報を参照
 function get_user($db, $user_id){
   $sql = "
     SELECT
@@ -18,7 +18,7 @@ function get_user($db, $user_id){
 
   return fetch_query($db, $sql);
 }
-
+//ユーザー名でユーザー情報を取得
 function get_user_by_name($db, $name){
   $sql = "
     SELECT
@@ -35,7 +35,7 @@ function get_user_by_name($db, $name){
 
   return fetch_query($db, $sql);
 }
-
+//ユーザー名、パスワードが一致しなければfalse、一致すればセッションをセット
 function login_as($db, $name, $password){
   $user = get_user_by_name($db, $name);
   if($user === false || $user['password'] !== $password){
@@ -44,13 +44,13 @@ function login_as($db, $name, $password){
   set_session('user_id', $user['user_id']);
   return $user;
 }
-
+//セッションIDを取得し、ユーザー情報を参照する
 function get_login_user($db){
   $login_user_id = get_session('user_id');
 
   return get_user($db, $login_user_id);
 }
-
+//ユーザー情報のバリデーションでエラーがなければユーザー情報を新規作成
 function regist_user($db, $name, $password, $password_confirmation) {
   if( is_valid_user($name, $password, $password_confirmation) === false){
     return false;
@@ -58,7 +58,7 @@ function regist_user($db, $name, $password, $password_confirmation) {
   
   return insert_user($db, $name, $password);
 }
-
+//ユーザーの種類をADMINにする
 function is_admin($user){
   return $user['type'] === USER_TYPE_ADMIN;
 }
@@ -69,7 +69,7 @@ function is_valid_user($name, $password, $password_confirmation){
   $is_valid_password = is_valid_password($password, $password_confirmation);
   return $is_valid_user_name && $is_valid_password ;
 }
-
+//ユーザー名のバリデーション、６字以上100字以下、半角英数
 function is_valid_user_name($name) {
   $is_valid = true;
   if(is_valid_length($name, USER_NAME_LENGTH_MIN, USER_NAME_LENGTH_MAX) === false){
@@ -82,7 +82,7 @@ function is_valid_user_name($name) {
   }
   return $is_valid;
 }
-
+//ユーザーパスワードのバリデーション、６字以上１００字以下、半角英数
 function is_valid_password($password, $password_confirmation){
   $is_valid = true;
   if(is_valid_length($password, USER_PASSWORD_LENGTH_MIN, USER_PASSWORD_LENGTH_MAX) === false){
@@ -99,7 +99,7 @@ function is_valid_password($password, $password_confirmation){
   }
   return $is_valid;
 }
-
+//ユーザー情報を新規作成する
 function insert_user($db, $name, $password){
   $sql = "
     INSERT INTO
