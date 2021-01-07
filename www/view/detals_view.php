@@ -12,9 +12,10 @@
   <table class="table table-bordered text-center">
         <thead class="thead-light">
           <tr>
-            <th>注文番号</th>
-            <th>購入日時</th>
-            <th>合計金額</th>
+            <th>商品名</th>
+            <th>商品価格</th>
+            <th>購入数</th>
+            <th>小計</th>
           </tr>
         </thead>
         <tbody>
