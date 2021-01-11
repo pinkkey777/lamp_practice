@@ -18,6 +18,14 @@ if(is_admin($user) === false){
   redirect_to(LOGIN_URL);
 }
 
+//トークンを照合し、falseならログイン画面へリダイレクト
+$get_token=get_post('get_token');
+if(is_valid_csrf_token($get_token) === false){
+  redirect_to(LOGIN_URL);
+}
+//$_SESSION["csrf_token"]を削除する
+unset($_SESSION["csrf_token"]);
+
 $item_id = get_post('item_id');
 
 //指定したアイテム情報を削除する
