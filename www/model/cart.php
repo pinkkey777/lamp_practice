@@ -158,3 +158,64 @@ function validate_cart_purchase($carts){
   return true;
 }
 
+function save_history($db,$user_id,$total_price){
+  $sql="
+    INSERT INTO
+      history(
+        user_id,
+        total_price
+      )
+      VALUES(:user_id, :total_price)
+      ";
+      $array=array('user_id' => $user_id,'total_price' => $total_price);
+        return execute_query($db, $sql,$array);
+}
+
+function save_details($db,$order_number,$price,$item_id,$amount){
+  $sql="
+    INSERT INTO
+      details(
+        order_number,
+        price,
+        item_id,
+        amount
+    )
+    VALUES(:order_number,:price,:item_id,:amount)
+    ";
+    $array=array('order_number' => $order_number,'price' => $price,'item_id' => $item_id,'amount' => $amount);
+    
+        return execute_query($db, $sql,$array);
+}
+
+function insert_history_details($db,$user_id,$total_price,$order_number,$price,$item_id,$amount){
+  try{
+    $db->beginTransaction();
+    //購入履歴テーブルに、user_id,$total_priceを保存する
+    save_history($db,$user_id,$total_price);
+    $order_number = $db -> lastInsertId();
+    //購入明細テーブルに、order_number,item_id,price,amountを保存する
+    foreach($carts as $cart){
+    save_details($db,$order_number,$price,$item_id,$amount);
+    }
+    $db->commit();
+    }catch(PDOException $e){
+      $db->rollBack();
+    }
+}
+
+
+function get_history($db,$user_id){
+  $sql = "
+  SELECT
+    order_number,
+    created,
+    total_price
+  FROM
+    history
+  
+  WHERE
+    user_id = :user_id
+";
+$array=array(':user_id' => $user_id);
+return fetch_query($db, $sql,$array);
+}
