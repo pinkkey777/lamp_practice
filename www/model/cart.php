@@ -187,21 +187,7 @@ function save_details($db,$order_number,$price,$item_id,$amount){
         return execute_query($db, $sql,$array);
 }
 
-function insert_history_details($db,$user_id,$total_price,$order_number,$price,$item_id,$amount){
-  try{
-    $db->beginTransaction();
-    //購入履歴テーブルに、user_id,$total_priceを保存する
-    save_history($db,$user_id,$total_price);
-    $order_number = $db -> lastInsertId();
-    //購入明細テーブルに、order_number,item_id,price,amountを保存する
-    foreach($carts as $cart){
-    save_details($db,$order_number,$price,$item_id,$amount);
-    }
-    $db->commit();
-    }catch(PDOException $e){
-      $db->rollBack();
-    }
-}
+
 
 
 function get_history($db,$user_id){

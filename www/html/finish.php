@@ -25,8 +25,9 @@ if(purchase_carts($db, $carts) === false){
 $total_price = sum_carts($carts);
 
 
-try{
+
 $db->beginTransaction();
+try{
 //購入履歴テーブルに、user_id,$total_priceを保存する
 save_history($db,$user['user_id'],$total_price);
 $order_number = $db -> lastInsertId();
@@ -37,6 +38,7 @@ save_details($db,$order_number,$cart['price'],$cart['item_id'],$cart['amount']);
 $db->commit();
 }catch(PDOException $e){
   $db->rollBack();
+  echo 'データベース処理でエラーが発生しました。理由：'.$e->getMessage();
 }
 
 
