@@ -23,6 +23,8 @@ if(purchase_carts($db, $carts) === false){
 } 
 
 $total_price = sum_carts($carts);
+
+
 try{
 $db->beginTransaction();
 //購入履歴テーブルに、user_id,$total_priceを保存する
@@ -36,7 +38,7 @@ $db->commit();
 }catch(PDOException $e){
   $db->rollBack();
 }
-// insert_history_details($db,$user['user_id'],$total_price,$order_number,$cart['price'],$cart['item_id'],$cart['amount']);
+
 
 
 

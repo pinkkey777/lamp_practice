@@ -15,14 +15,22 @@
             <th>注文番号</th>
             <th>購入日時</th>
             <th>合計金額</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           <?php foreach($historys as $history){ ?>
           <tr>
-            <td><?php print(h($history[''])); ?></td>
-            <td><?php print(h($history[''])); ?></td>
-            <td><?php print(h($history[''])); ?></td>
+            <td><?php print(h($history['order_number'])); ?></td>
+            <td><?php print(h($history['created'])); ?></td>
+            <td><?php print(h($history['total_price'])); ?></td>
+            <td>
+              <form method="post" action="details.php">
+                <input type="submit" value="購入明細">
+                <input type="hidden" name="order_number" value="<?php print h($history['order_number']);?>">
+              </form>
+            </td>
+                
           </tr>
           <?php } ?>
         </tbody>

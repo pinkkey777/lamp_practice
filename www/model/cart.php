@@ -215,7 +215,61 @@ function get_history($db,$user_id){
   
   WHERE
     user_id = :user_id
+  ORDER BY
+  order_number DESC;
 ";
 $array=array(':user_id' => $user_id);
-return fetch_query($db, $sql,$array);
+return fetch_all_query($db, $sql,$array);
+}
+
+function admin_get_history($db){
+  $sql = "
+  SELECT
+    order_number,
+    created,
+    total_price
+  FROM
+    history
+  
+  ORDER BY
+  order_number DESC;
+";
+return fetch_all_query($db, $sql);
+}
+
+function get_one_history($db,$user_id,$order_number){
+  $sql = "
+  SELECT
+    order_number,
+    created,
+    total_price
+
+  FROM
+    history
+  
+  WHERE
+    user_id = :user_id AND
+    order_number = :order_number
+  
+";
+$array=array(':user_id' => $user_id,':order_number' => $order_number);
+return fetch_all_query($db, $sql,$array);
+}
+
+function get_details($db,$order_number){
+  $sql = "
+  SELECT
+    items.name,
+    details.price,
+    details.amount
+
+  FROM
+    details
+    INNER JOIN items
+    ON details.item_id=items.item_id
+  WHERE
+    details.order_number = :order_number
+";
+$array=array(':order_number' => $order_number);
+return fetch_all_query($db, $sql,$array);
 }
