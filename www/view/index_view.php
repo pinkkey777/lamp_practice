@@ -20,16 +20,16 @@
       <div class="text-center">
         <p><?php print h($page_num);?>件中<?php print h($start+1).'-'.h($end);?>件目の商品</p>
         <?php if($page >1){?>
-        <a href="?page=<?php print $page-1;?>">前へ</a>
+        <a href="?page=<?php print h($page)-1;?>">前へ</a>
         <?php }?>
         <?php for ($x=1; $x <= $pagenation ; $x++) { ?>
         <?php if($x == $page){ ?>
-            <span><?php print $page; ?></span>
+            <span><?php print h($page); ?></span>
             <?php }else{ ?>
-        <a href="?page=<?php print $x; ?>"><?php print $x; ?></a>
+        <a href="?page=<?php print h($x); ?>"><?php print h($x); ?></a>
         <?php }}?>
 　　     <?php if($page < $pagenation){ ?>
-        <a href="?page=<?php print $page+1 ; ?>">次へ</a>
+        <a href="?page=<?php print h($page+1); ?>">次へ</a>
         <?php }?>
       </div>
     <div class="card-deck">
