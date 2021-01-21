@@ -206,3 +206,31 @@ function is_valid_item_status($status){
   }
   return $is_valid;
 }
+//ページ数に従ってitemsテーブルから8件のデータを取得する
+function get_item_limit($db,$start){
+  $sql = "
+    SELECT
+      item_id, 
+      name,
+      stock,
+      price,
+      image,
+      status
+    FROM
+      items
+    LIMIT :start,8
+  ";
+  $array=array(':start' => $start);
+  return fetch_all_query($db, $sql,$array);
+}
+//itemsテーブルの全ての商品数を取得
+function get_total_items($db){
+  $sql = "
+    SELECT
+      COUNT(*)
+    FROM
+      items
+  
+  ";
+  return fetch_Column($db,$sql);
+}

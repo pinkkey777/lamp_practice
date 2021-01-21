@@ -47,3 +47,17 @@ function execute_query($db, $sql, $params = array()){
   }
   return false;
 }
+
+function fetch_column($db,$sql){
+  try{
+    $statement = $db->prepare($sql);
+    $statement->execute();
+    return $statement->fetchColumn();
+  }catch(PDOException $e){
+    set_error('データ取得に失敗しました。');
+  }
+  return false;
+}
+
+
+
