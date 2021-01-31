@@ -17,21 +17,25 @@
   <div class="container">
     <h1>商品一覧</h1>
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
-      <div class="text-center">
         <p><?php print h($page_num);?>件中<?php print h($start+1).'-'.h($end);?>件目の商品</p>
-        <?php if($page >1){?>
-        <a href="?page=<?php print h($page)-1;?>">前へ</a>
-        <?php }?>
-        <?php for ($x=1; $x <= $pagenation ; $x++) { ?>
-        <?php if($x == $page){ ?>
-            <span><?php print h($page); ?></span>
+        <nav aria-label="Page navigation">
+          <ul class="pagination">
+            <?php if($page >1){?>
+            <li class="page-item"><a class="page-link" href="?page=<?php print h($page)-1;?>">前へ</a></li>
+            <?php }?>
+            <?php for ($x=1; $x <= $pagenation ; $x++) { ?>
+            <?php if($x == $page){ ?>
+            <li class="page-item active"><span class="page-link"><?php print h($page); ?></span></li>
             <?php }else{ ?>
-        <a href="?page=<?php print h($x); ?>"><?php print h($x); ?></a>
-        <?php }}?>
-　　     <?php if($page < $pagenation){ ?>
-        <a href="?page=<?php print h($page+1); ?>">次へ</a>
-        <?php }?>
-      </div>
+            <li class="page-item"><a class="page-link" href="?page=<?php print h($x); ?>"><?php print h($x); ?></a></li>
+            <?php }}?>
+    　　     <?php if($page < $pagenation){ ?>
+            <li class="page-item"><a class="page-link" href="?page=<?php print h($page+1); ?>">次へ</a></li>
+            <?php }?>
+            
+          </ul>
+        </nav>
+  
     <div class="card-deck">
       <div class="row">
       <?php foreach($items as $item){ ?>
